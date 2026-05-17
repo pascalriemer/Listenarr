@@ -226,7 +226,6 @@ Temporary Items
 
 # Docker volumes and data
 docker-compose.override.yml
-.dockerignore
 
 ##########################
 # Temporary & Misc       #
@@ -262,6 +261,7 @@ migrate-to-*.sh
 
 # CI / publish outputs
 listenarr.api/publish/
+listenarr.api/docker-publish/
 publish/
 publish_local_test/
 publish_test*/
