@@ -199,8 +199,13 @@ if (builder.Environment.IsEnvironment("Test"))
     Log.Logger = Serilog.Core.Logger.None;
 }
 
-// Configure URLs to listen on port 4545 (main Listenarr port) - can be overridden by --urls
-if (!args?.Any(arg => arg.StartsWith("--urls")) ?? true)
+// Configure URLs to listen on port 4545 by default, while allowing Docker and
+// other hosts to override via ASPNETCORE_URLS/DOTNET_URLS or --urls.
+var hasConfiguredUrls =
+    !string.IsNullOrWhiteSpace(builder.Configuration["urls"]) ||
+    (args?.Any(arg => arg.StartsWith("--urls", StringComparison.OrdinalIgnoreCase)) ?? false);
+
+if (!hasConfiguredUrls)
 {
     builder.WebHost.UseUrls("http://*:4545");
 }
